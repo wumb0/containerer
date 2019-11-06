@@ -22,7 +22,7 @@
 <script>
 $( document ).ready(function()
 {
-    $('#cont').on("click", "#give", function(){
+    $(document).on("click", "#give", function(){
 	$.ajax ( { 
 		url: "/startcontainer"
 		type: "GET",
@@ -31,7 +31,7 @@ $( document ).ready(function()
 		}
 	} );
     });
-    $('#cont').on("click", "#take", function(){
+    $(document).on("click", "#take", function(){
 	$.ajax ( { 
 		url: "/expire/{{container.id}}"
 		type: "GET",
