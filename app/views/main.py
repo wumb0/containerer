@@ -41,7 +41,7 @@ def expire_container(id):
         c = ContainerInstance.query.get(id)
         if not c:
             return
-        cont = docker_client.containers.get(c.id)
+        cont = docker_client.containers.get(c.hash)
         cont.kill()
         cont.remove()
         db.session.remove(c)
