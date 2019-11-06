@@ -2,7 +2,7 @@
 {% block content %}
 <div class="jumbotron">
     <div class="row">
-        <div class="col-md-12">
+        <div id="cont" class="col-md-12">
             {% if container %}
                 {% set pubkey = container.pubkey.replace("\n","<br>") %}
                 <p>Container hash: {{container.hash}}</p>
@@ -22,7 +22,7 @@
 <script>
 $( document ).ready(function()
 {
-    $('#give').click(function(){
+    $('#cont').on("click", "#give", function(){
 	$.ajax ( { 
 		url: "/startcontainer"
 		type: "GET",
@@ -31,7 +31,7 @@ $( document ).ready(function()
 		}
 	} );
     });
-    $('#take').click(function(){
+    $('#cont').on("click", "#take", function(){
 	$.ajax ( { 
 		url: "/expire/{{container.id}}"
 		type: "GET",
