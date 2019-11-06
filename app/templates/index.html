@@ -46,7 +46,7 @@ $( document ).ready(function()
         window.location.replace("/getkey/{{container.hash}}")
     });
     //https://www.geeksforgeeks.org/create-countdown-timer-using-javascript/
-    var deadline = new Date("{{container.isoformat()}}").getTime();
+    var deadline = new Date("{{container.expiry.isoformat()}}").getTime();
     var x = setInterval(function() {
     var now = new Date().getTime();
     var t = deadline - now;
