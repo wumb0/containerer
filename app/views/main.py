@@ -19,6 +19,8 @@ def index():
 def start_container():
     privkey, pubkey = generate_keypair()
     c = ContainerInstance(privkey=privkey, pubkey=pubkey)
+    db.session.add(c)
+    db.session.commit()
     env = {"CONFIG_USERNAME": c.username, "CONFIG_SSHKEY": pubkey}
     container = docker_client.containers.run(app.config['CONTAINER_NAME'],
                                              detach=True,
