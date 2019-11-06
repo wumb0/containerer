@@ -9,9 +9,9 @@
                 <p>{{container.username}}@{{host}} port {{container.port}}</p>
                 <pre>{{pubkey}}</pre>
                 <p>Expiry at {{container.expiry.isoformat()}}</p>
-                <button id="take">Expire now</button>
+                <button type="button" class="btn btn-danger" id="take">Expire now</button>
             {% else %}
-                <button id="give">Give me a container</button>
+                <button type="button" class="btn btn-primary" id="give">Give me a container</button>
             {% endif %}
         </div>
     </div>
