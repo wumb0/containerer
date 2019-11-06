@@ -1,0 +1,9 @@
+[Unit]
+Description=RQ
+After=network.target
+
+[Service]
+ExecStart=/root/containerer/flask/bin/rq worker
+
+[Install]
+WantedBy=multi-user.target

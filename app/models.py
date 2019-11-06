@@ -64,6 +64,7 @@ class ContainerInstance(db.Model):
     privkey = db.Column(db.String(384))
     port = db.Column(db.Integer)
     job_id = db.Column(db.String(30))
+    expiry = db.Column(db.DateTime)
 
     @hybrid_property
     def username(self):

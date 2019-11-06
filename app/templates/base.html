@@ -33,8 +33,6 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     {% if g.user.is_authenticated %}
-                    <li id="examplepage"><a href="{{url_for('main.examplepage')}}"><i class="fa fa-dashboard"></i> Example Page</a></li>
-                    <li id="exampleform"><a href="{{url_for('main.exampleform')}}"><i class="fa fa-reorder"></i> Example Form</a></li>
                     {% if g.user.is_admin %}
                     <li id="admin"><a href="{{url_for('admin.index')}}"><i class="fa fa-cog"></i> Admin</a></li>
                     {% endif %}
@@ -79,10 +77,10 @@
     <footer class="footer footer-bottom">
         <div class="container">
             <div class="row">
-                <p class="text-muted text-center">Jaime Geiger &amp; Ben Bornholm 2016</p>
+                <p class="text-muted text-center">wumb0 2019</p>
             </div>
             <div class="row text-center github">
-                <a href="https://github.com/jgeigerm/flask-examples"><i class="fa fa-github fa-2x"></i></a>
+                <a href="https://github.com/jgeigerm/containerer"><i class="fa fa-github fa-2x"></i></a>
             </div>
         </div>
     </footer>

@@ -77,3 +77,6 @@ Parent: .AdminModelView
 """
 class RoleModelView(AdminModelView):
     pass
+
+class ContainerInstanceModelView(AdminModelView):
+    pass

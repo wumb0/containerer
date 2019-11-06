@@ -1,0 +1,9 @@
+[Unit]
+Description=RQScheduler
+After=network.target
+
+[Service]
+ExecStart=/root/containerer/flask/bin/rqscheduler
+
+[Install]
+WantedBy=multi-user.target

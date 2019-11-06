@@ -1,11 +1,10 @@
 #!flask/bin/python
 from app import db, app, docker_client, sched
-from flask import render_template, g, Blueprint, jsonify, session
+from flask import render_template, g, Blueprint, jsonify, session, request
 from flask_security import current_user, login_required
-from datetime import timedelta
+from datetime import timedelta, datetime
 from app.crypto import generate_keypair
 from app.models import *
-from app.forms import *
 
 # create a blueprint called main
 main = Blueprint('main', __name__)
@@ -14,7 +13,10 @@ main = Blueprint('main', __name__)
 @main.route('/index')
 @main.route('/home')
 def index():
-    return render_template("index.html", containers=session['container'])
+    c = None
+    if 'container' in session:
+        c = ContainerInstance.query.filter_by(hash=session['container']).one_or_none()
+    return render_template("index.html", container=c, host=request.remote_addr)
 
 @main.route('/startcontainer')
 def start_container():
@@ -36,7 +38,8 @@ def start_container():
     port = docker_client.api.inspect_container(container.id)["NetworkSettings"]["Ports"]["22/tcp"][0]['HostPort']
     c.hash = container.id
     c.port = port
-    c.job_id = sched.enqueue_in(timedelta(minutes=app.config['EXPIRE_TIME']), expire_container, c.id).id
+    c.expiry = datetime.utcnow() + timedelta(minutes=app.config['EXPIRE_TIME'])
+    c.job_id = sched.enqueue_in(c.expiry, expire_container, c.id).id
     db.session.merge(c)
     db.session.commit()
     session['container'] = c.hash
@@ -52,7 +55,6 @@ def expire_container(id):
         cont.kill()
         cont.remove()
         if c.job_id in sched:
-            print("cancelling job")
             sched.cancel(c.job_id)
         db.session.delete(c)
         db.session.commit()
@@ -64,8 +66,8 @@ def is_running(ch):
 @main.route('/getcreds/<int:id>')
 def get_creds(id):
     c = ContainerInstance.query.get_or_404(id)
-    d = {"privkey": c.privkey.decode(), "pubkey": c.pubkey.decode(), "port": c.port, "hash": c.hash, "username": c.username}
-    return jsonify(d)
+    d = {"privkey": c.privkey, "pubkey": c.pubkey, "port": c.port, "hash": c.hash, "username": c.username}
+    return jsonify(d), 200
 
 @main.route('/expire/<int:id>')
 def expire(id):

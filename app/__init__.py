@@ -47,6 +47,7 @@ app.register_blueprint(main.main)
 
 # configure the admin interface, populate it with pages and links
 app_admin = Admin(app, 'Flask Skeleton Admin', template_mode='bootstrap3', index_view=admin.AdminIndexView())
+app_admin.add_view(admin.ContainerInstanceModelView(models.ContainerInstance, db.session))
 app_admin.add_view(admin.UserModelView(models.User, db.session))
 app_admin.add_view(admin.RoleModelView(models.Role, db.session))
 app_admin.add_link(MenuLink(name='Back to Site', url='/'))
