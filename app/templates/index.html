@@ -7,8 +7,7 @@
                 <p>Container hash: {{container.hash}}</p>
                 <p>Connection info: {{container.username}}@{{host}} port {{container.port}}</p>
                 <pre>{{container.privkey}}</pre>
-                <p>Expiry at {{container.expiry.isoformat()}}</p>
-                <p id="expiry"></p>
+                <p>Expiry in <spanid="expiry"><span> </p>
                 <button type="button" class="btn btn-warning" id="key">Download Key</button>
                 <button type="button" class="btn btn-danger" id="take">Expire now</button>
             {% else %}
@@ -48,13 +47,15 @@ $( document ).ready(function()
     //https://www.geeksforgeeks.org/create-countdown-timer-using-javascript/
     var deadline = new Date("{{container.expiry.isoformat()}}").getTime();
     var x = setInterval(function() {
-    var now = new Date().getTime();
-    var t = deadline - now;
-    var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((t % (1000 * 60)) / 1000);
-    document.getElementById("expiry").innerHTML = minutes + "m " + seconds + "s ";
+        var now = new Date().getTime();
+        var t = deadline - now;
+        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((t % (1000 * 60)) / 1000);
+        document.getElementById("expiry").innerHTML = minutes + "m " + seconds + "s ";
         if (t < 0) {
             clearInterval(x);
+            alert("kldfsj");
+            location.reload();
             document.getElementById("expiry").innerHTML = "EXPIRED";
         }
     }, 1000);
