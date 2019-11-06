@@ -50,15 +50,14 @@ $( document ).ready(function()
     //https://www.geeksforgeeks.org/create-countdown-timer-using-javascript/
     var deadline = new Date("{{container.expiry.isoformat()}}").getTime();
     var x = setInterval(function() {
-        var now = new Date().getTime();
+        var now = Date.now();
         if (now > deadline) {
+            document.getElementById("expiry").innerHTML = "EXPIRED";
             clearInterval(x);
-            alert("kldfsj");
             // don't worry kids, it expires on the backend too even if this
             // isn't called. no hakking allowed.
             expire_container();
             location.reload();
-            document.getElementById("expiry").innerHTML = "EXPIRED";
         } else {
             var t = deadline - now;
             var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
