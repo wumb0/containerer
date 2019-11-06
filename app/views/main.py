@@ -38,7 +38,7 @@ def start_container():
 
 def expire_container(id):
     with app.app_context():
-        c = ContainerInstance.query.one_or_none(id)
+        c = ContainerInstance.query.get(id)
         if not c:
             return
         cont = docker_client.containers.get(c.id)
