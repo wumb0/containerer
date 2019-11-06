@@ -30,8 +30,10 @@ def start_container():
     db.session.add(c)
     db.session.commit()
     env = {"CONFIG_USERNAME": c.username, "CONFIG_SSHKEY": pubkey}
-    container = docker_client.run(app.config['CONTAINER_NAME'], detach=True,
-                                  environment=env, ports={"22/tcp": None})
+    container = docker_client.containers.run(app.config['CONTAINER_NAME'],
+                                             detach=True,
+                                             environment=env,
+                                             ports={"22/tcp": None})
 
     port = docker_client.api.inspect_container(container.id)["NetworkSettings"]["Ports"]["22/tcp"][0]['HostPort']
     c.hash = container.id
