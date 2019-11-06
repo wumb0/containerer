@@ -3,11 +3,12 @@
 <div class="jumbotron">
     <div class="row">
         <div id="cont" class="col-md-12">
+            <h3>{{containername}}</h3>
             {% if container %}
                 <p>Container hash: {{container.hash}}</p>
                 <p>Connection info: {{container.username}}@{{host}} port {{container.port}}</p>
                 <pre>{{container.privkey}}</pre>
-                <p>Expiry in <span id="expiry">--m --s<span></p>
+                <p>Expiry in <span id="expiry">00m 00s<span></p>
                 <p>You can reset the timer {{container.extends}} time(s)</p>
                 <button type="button" class="btn btn-warning" id="key">Download Key</button>
                 {% if container.extends > 0 %}
@@ -15,6 +16,11 @@
                 {% endif %}
                 <button type="button" class="btn btn-danger" id="take">Expire now</button>
             {% else %}
+                <p>Before you hit this button, please understand two things</p>
+                <ol>
+                    <li>These containers are not meant for you to do work on. They are meant for you to solve the challenge. Work on your own box, write an exploit, and then use the container to run it to get the flag. Your data will disappear after the container expires.</li>
+                    <li>If you try to DDoS the box by spinning up a billion containers, you're just an asshole who likes ruining things for other people. In that case I'll take this box down and everyone will have to ask me for a container to solve on. This is a prototype I wrote in 2 days, not a production app that needs to be tested so you can show how big your dick is.</li>
+                </ol>
                 <button type="button" class="btn btn-primary" id="give">Give me a container</button>
             {% endif %}
         </div>
