@@ -22,7 +22,7 @@
 <script>
 $( document ).ready(function()
 {
-    $('#give').click(function(e){
+    $('#give').click(function(){
 	$.ajax ( { 
 		url: "/startcontainer"
 		type: "GET",
@@ -30,9 +30,8 @@ $( document ).ready(function()
 		    location.reload();
 		}
 	} );
-	e.preventDefault();
     });
-    $('#take').click(function(e){
+    $('#take').click(function(){
 	$.ajax ( { 
 		url: "/expire/{{container.id}}"
 		type: "GET",
@@ -40,7 +39,6 @@ $( document ).ready(function()
 		    location.reload();
 		}
 	} );
-	e.preventDefault();
     });
 }
 <script>
