@@ -1,6 +1,6 @@
 #!flask/bin/python
 from app import db, app, docker_client, sched
-from flask import render_template, g, Blueprint, jsonify, session, request
+from flask import render_template, g, Blueprint, jsonify, session, request, Response
 from flask_security import current_user, login_required
 from datetime import timedelta, datetime
 from app.crypto import generate_keypair
@@ -63,16 +63,27 @@ def is_running(ch):
     cont = docker_client.containers.get(ch)
     return cont.status == 'running'
 
-@main.route('/getcreds/<int:id>')
-def get_creds(id):
-    c = ContainerInstance.query.get_or_404(id)
+@main.route('/getcreds/<hash>')
+def get_creds(hash):
+    c = ContainerInstance.query.filter_by(hash=hash).one_or_404()
     d = {"privkey": c.privkey, "pubkey": c.pubkey, "port": c.port, "hash": c.hash, "username": c.username}
     return jsonify(d), 200
 
-@main.route('/expire/<int:id>')
-def expire(id):
-    expire_container(id)
+@main.route('/expire/<hash>')
+def expire(hash):
+    c = ContainerInstance.query.filter_by(hash=hash).one_or_404()
+    expire_container(c.id)
     if 'container' in session:
         del session['container']
     ret = {"status": "SUCCESS"}
     return jsonify(ret), 200
+
+@main.route('/getkey/<hash>')
+def get_key(hash):
+    c = ContainerInstance.query.filter_by(hash=hash).one_or_404()
+    fn = "{}-{}-{}.pem".format(c.username, request.remote_addr, c.port)
+    return Response(
+        c.privkey,
+        mimetype="application/x-pem-file",
+        headers={"Content-disposition":
+                 "attachment; filename="+fn})

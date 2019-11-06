@@ -4,11 +4,11 @@
     <div class="row">
         <div id="cont" class="col-md-12">
             {% if container %}
-                {% set privkey = container.privkey.replace("\n","<br>") %}
                 <p>Container hash: {{container.hash}}</p>
-                <p>{{container.username}}@{{host}} port {{container.port}}</p>
-                <pre>{{privkey}}</pre>
+                <p>Connection info: {{container.username}}@{{host}} port {{container.port}}</p>
+                <pre>{{container.privkey}}</pre>
                 <p>Expiry at {{container.expiry.isoformat()}}</p>
+                <button type="button" class="btn btn-info" id="key">Download Key</button>
                 <button type="button" class="btn btn-danger" id="take">Expire now</button>
             {% else %}
                 <button type="button" class="btn btn-primary" id="give">Give me a container</button>
@@ -33,12 +33,15 @@ $( document ).ready(function()
     });
     $("#take").click(function(){
 	$.ajax ( { 
-		url: "/expire/{{container.id}}",
+		url: "/expire/{{container.hash}}",
 		type: "GET",
 		success: function (d) {
 		    location.reload();
 		}
 	} );
+    });
+    $("#key").click(function(){
+        window.location.replace("/getkey/{{container.hash}}")
     });
 });
 </script>
