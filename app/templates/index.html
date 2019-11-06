@@ -9,11 +9,36 @@
                 <p>{{container.username}}@{{host}} port {{container.port}}</p>
                 <pre>{{pubkey}}</pre>
                 <p>Expiry at {{container.expiry.isoformat()}}</p>
-                <button>Expire now</button>
+                <button id="take">Expire now</button>
             {% else %}
-                <button>Give me a container</button>
+                <button id="give">Give me a container</button>
             {% endif %}
         </div>
     </div>
 </div>
 {% endblock content %}
+
+{% block footer %}
+<script>
+    $('button#give').click(function(e){
+	$.ajax ( { 
+		url: "/startcontainer"
+		type: "GET",
+		success: function (d) {
+		    location.reload();
+		}
+	} );
+	e.preventDefault();
+    });
+    $('button#take').click(function(e){
+	$.ajax ( { 
+		url: "/expire/{{container.id}}"
+		type: "GET",
+		success: function (d) {
+		    location.reload();
+		}
+	} );
+	e.preventDefault();
+    });
+<script>
+{% endblock footer %}
