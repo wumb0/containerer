@@ -44,7 +44,7 @@ def expire_container(id):
         cont = docker_client.containers.get(c.hash)
         cont.kill()
         cont.remove()
-        db.session.remove(c)
+        db.session.delete(c)
         db.session.commit()
 
 
