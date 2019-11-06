@@ -31,7 +31,7 @@ def start_container():
     port = docker_client.api.inspect_container(container.id)["NetworkSettings"]["Ports"]["22/tcp"][0]['HostPort']
     c.hash = container.id
     c.port = port
-    c.job_id = sched.enqueue_in(timedelta(mintues=1), expire_container, c.id)
+    c.job_id = sched.enqueue_in(timedelta(minutes=1), expire_container, c.id)
     db.session.merge(c)
     db.session.commit()
     return '{"status": "OK"}', 200
