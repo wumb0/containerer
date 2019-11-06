@@ -51,6 +51,9 @@ def expire_container(id):
         cont = docker_client.containers.get(c.hash)
         cont.kill()
         cont.remove()
+        if c.job_id in sched:
+            print("cancelling job")
+            sched.cancel(c.job_id)
         db.session.delete(c)
         db.session.commit()
 
@@ -69,3 +72,5 @@ def expire(id):
     expire_container(id)
     if 'container' in session:
         del session['container']
+    ret = {"status": "SUCCESS"}
+    return jsonify(ret), 200
