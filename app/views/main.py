@@ -18,7 +18,7 @@ def index():
 
 @main.route('/startcontainer')
 def start_container():
-    if session['container'] != None:
+    if 'container' in session:
         c = ContainerInstance.query.filter_by(hash=session['container']).one_or_none()
         if c != None and is_running(c.hash):
             ret = {"status": "FAILURE"}
@@ -67,4 +67,5 @@ def get_creds(id):
 @main.route('/expire/<int:id>')
 def expire(id):
     expire_container(id)
-    del session['container']
+    if 'container' in session:
+        del session['container']
