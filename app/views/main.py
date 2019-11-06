@@ -1,18 +1,10 @@
 #!flask/bin/python
 from app import db, app, docker_client
-from flask import render_template, g, Blueprint
+from flask import render_template, g, Blueprint, jsonify
 from flask_security import current_user, login_required
 from app.crypto import generate_keypair
 from app.models import *
 from app.forms import *
-import socket
-from contextlib import closing
-
-def _find_free_port():
-    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
-        s.bind(('', 0))
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        return s.getsockname()[1]
 
 # create a blueprint called main
 main = Blueprint('main', __name__)
@@ -40,6 +32,12 @@ def start_container():
     c.port = port
     db.session.add(c)
     db.session.commit()
+    return
+
+@main.route('/getcreds/<int:id>')
+def get_creds(id):
+    c = ContainerInstance.query.get_or_404(id=id)
+    return jsonify(c)
 
 @main.route('/examplepage')
 @login_required
