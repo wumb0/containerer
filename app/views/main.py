@@ -39,7 +39,7 @@ def start_container():
     c.hash = container.id
     c.port = port
     c.expiry = datetime.utcnow() + timedelta(minutes=app.config['EXPIRE_TIME'])
-    c.job_id = sched.enqueue_in(c.expiry, expire_container, c.id).id
+    c.job_id = sched.enqueue_at(c.expiry, expire_container, c.id).id
     db.session.merge(c)
     db.session.commit()
     session['container'] = c.hash
