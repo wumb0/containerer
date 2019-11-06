@@ -19,8 +19,6 @@ def index():
 def start_container():
     privkey, pubkey = generate_keypair()
     c = ContainerInstance(privkey=privkey, pubkey=pubkey)
-    db.session.add(c)
-    db.session.commit()
     env = {"CONFIG_USERNAME": c.username, "CONFIG_SSHKEY": pubkey}
     container = docker_client.containers.run(app.config['CONTAINER_NAME'],
                                              detach=True,
@@ -30,14 +28,14 @@ def start_container():
     port = docker_client.api.inspect_container(container.id)["NetworkSettings"]["Ports"]["22/tcp"][0]['HostPort']
     c.hash = container.id
     c.port = port
-    db.session.add(c)
+    db.session.merge(c)
     db.session.commit()
-    return
+    return '{"status": "OK"}', 200
 
 @main.route('/getcreds/<int:id>')
 def get_creds(id):
     c = ContainerInstance.query.get_or_404(id)
-    d = {"privkey": c.privkey, "pubkey": c.pubkey, "port": c.port, "hash": c.hash, "username": c.username}
+    d = {"privkey": c.privkey.decode(), "pubkey": c.pubkey.decode(), "port": c.port, "hash": c.hash, "username": c.username}
     print(d)
     return jsonify(d)
 
