@@ -8,7 +8,11 @@
                 <p>Connection info: {{container.username}}@{{host}} port {{container.port}}</p>
                 <pre>{{container.privkey}}</pre>
                 <p>Expiry in <span id="expiry">--m --s<span></p>
+                <p>You can reset the timer {{container.extends}} time(s)</p>
                 <button type="button" class="btn btn-warning" id="key">Download Key</button>
+                {% if container.extends > 0 %}
+                <button type="button" class="btn btn-success" id="extend">Extend timer</button>
+                {% endif %}
                 <button type="button" class="btn btn-danger" id="take">Expire now</button>
             {% else %}
                 <button type="button" class="btn btn-primary" id="give">Give me a container</button>
@@ -41,6 +45,17 @@ $( document ).ready(function()
 		}
 	} );
     };
+    {% if container.extends > 0 %}
+    $("#extend").click(function(){
+	$.ajax ( { 
+            url: "/extend/{{container.hash}}",
+		type: "GET",
+		success: function (d) {
+		    location.reload();
+		}
+	} );
+    });
+    {% endif %}
     $("#take").click(function(){
         expire_container();
     });

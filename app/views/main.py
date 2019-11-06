@@ -38,13 +38,17 @@ def start_container():
     port = docker_client.api.inspect_container(container.id)["NetworkSettings"]["Ports"]["22/tcp"][0]['HostPort']
     c.hash = container.id
     c.port = port
+    c.extends = app.config['USER_EXTENDS']
+    schedule_expiry(c)
+    session['container'] = c.hash
+    ret = {"status": "SUCCESS"}
+    return jsonify(ret)
+
+def schedule_expiry(c):
     c.expiry = datetime.utcnow() + timedelta(minutes=app.config['EXPIRE_TIME'])
     c.job_id = sched.enqueue_at(c.expiry, expire_container, c.id).id
     db.session.merge(c)
     db.session.commit()
-    session['container'] = c.hash
-    ret = {"status": "SUCCESS"}
-    return jsonify(ret)
 
 def expire_container(id):
     with app.app_context():
@@ -87,3 +91,14 @@ def get_key(hash):
         mimetype="application/x-pem-file",
         headers={"Content-disposition":
                  "attachment; filename="+fn})
+
+@main.route('/extend/<hash>')
+def extend(hash):
+    c = ContainerInstance.query.filter_by(hash=hash).first_or_404()
+    if c.extends > 0:
+        sched.cancel(c.job_id)
+        c.extends -= 1
+        schedule_expiry(c)
+        return jsonify({"status": "SUCCESS"}), 200
+    else:
+        return jsonify({"status": "FAILURE"}), 401
