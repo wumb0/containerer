@@ -41,7 +41,7 @@ def start_container():
     db.session.commit()
     session['container'] = c.hash
     ret = {"status": "SUCCESS"}
-    return jsonify()
+    return jsonify(ret)
 
 def expire_container(id):
     with app.app_context():
