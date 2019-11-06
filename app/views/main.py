@@ -37,7 +37,8 @@ def start_container():
 @main.route('/getcreds/<int:id>')
 def get_creds(id):
     c = ContainerInstance.query.get_or_404(id)
-    return jsonify(c)
+    d = {"privkey": c.privkey, "pubkey": c.pubkey, "port": c.port, "hash": c.hash, "username": c.username}
+    return jsonify(d)
 
 @main.route('/examplepage')
 @login_required
