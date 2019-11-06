@@ -1,4 +1,4 @@
-from app import db
+from app import db, app
 from sqlalchemy.ext.hybrid import hybrid_property
 from flask_security import UserMixin, RoleMixin, current_user
 
