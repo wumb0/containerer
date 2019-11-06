@@ -7,3 +7,6 @@ Flask-Migrate
 Flask-Security
 docker
 cryptography
+redis
+rq
+rq-scheduler

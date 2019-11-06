@@ -1,7 +1,8 @@
 #!flask/bin/python
-from app import db, app, docker_client
+from app import db, app, docker_client, sched
 from flask import render_template, g, Blueprint, jsonify
 from flask_security import current_user, login_required
+from datetime import timedelta
 from app.crypto import generate_keypair
 from app.models import *
 from app.forms import *
@@ -30,9 +31,21 @@ def start_container():
     port = docker_client.api.inspect_container(container.id)["NetworkSettings"]["Ports"]["22/tcp"][0]['HostPort']
     c.hash = container.id
     c.port = port
+    c.job_id = sched.enqueue_in(timedelta(mintues=1), expire_container, c.id)
     db.session.merge(c)
     db.session.commit()
     return '{"status": "OK"}', 200
+
+def expire_container(id):
+    c = ContainerInstance.query.one_or_none(id)
+    if not c:
+        return
+    cont = docker_client.containers.get(c.id)
+    cont.kill()
+    cont.remove()
+    db.session.remove(c)
+    db.session.commit()
+
 
 @main.route('/getcreds/<int:id>')
 def get_creds(id):

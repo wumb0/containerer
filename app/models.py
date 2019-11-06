@@ -63,6 +63,7 @@ class ContainerInstance(db.Model):
     pubkey = db.Column(db.String(252))
     privkey = db.Column(db.String(384))
     port = db.Column(db.Integer)
+    job_id = db.Column(db.String(30))
 
     @hybrid_property
     def username(self):

@@ -8,12 +8,16 @@ from flask_wtf.csrf import CSRFProtect
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin
 from flask_admin.base import MenuLink
+from redis import Redis
+from rq_scheduler import Scheduler
 
 # initialize the application, import config, setup database, setup CSRF protection
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 CSRFProtect(app)
+
+sched = Scheduler(connection=Redis())
 
 # set up the database model if not already set up
 from app import models
