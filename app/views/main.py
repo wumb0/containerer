@@ -37,21 +37,21 @@ def start_container():
     return '{"status": "OK"}', 200
 
 def expire_container(id):
-    c = ContainerInstance.query.one_or_none(id)
-    if not c:
-        return
-    cont = docker_client.containers.get(c.id)
-    cont.kill()
-    cont.remove()
-    db.session.remove(c)
-    db.session.commit()
+    with app.app_context():
+        c = ContainerInstance.query.one_or_none(id)
+        if not c:
+            return
+        cont = docker_client.containers.get(c.id)
+        cont.kill()
+        cont.remove()
+        db.session.remove(c)
+        db.session.commit()
 
 
 @main.route('/getcreds/<int:id>')
 def get_creds(id):
     c = ContainerInstance.query.get_or_404(id)
     d = {"privkey": c.privkey.decode(), "pubkey": c.pubkey.decode(), "port": c.port, "hash": c.hash, "username": c.username}
-    print(d)
     return jsonify(d)
 
 @main.route('/examplepage')
