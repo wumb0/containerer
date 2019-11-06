@@ -1,5 +1,5 @@
 #!flask/bin/python
-from app import db, app, docker_client, config
+from app import db, app, docker_client
 from flask import render_template, g, Blueprint
 from flask_security import current_user, login_required
 from app.crypto import generate_keypair
@@ -30,7 +30,7 @@ def start_container():
     db.session.add(c)
     db.session.commit()
     env = {"CONFIG_USERNAME": c.username, "CONFIG_SSHKEY": pubkey}
-    container = docker_client.run(config['CONTAINER_NAME'], detach=True,
+    container = docker_client.run(app.config['CONTAINER_NAME'], detach=True,
                                   environment=env, ports={"22/tcp": None})
 
     port = docker_client.api.inspect_container(container.id)["NetworkSettings"]["Ports"]["22/tcp"][0]['HostPort']
