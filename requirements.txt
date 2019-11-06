@@ -1,0 +1,9 @@
+Flask
+Flask-Login
+Flask-Sqlalchemy
+Flask-Admin
+Flask-WTF
+Flask-Migrate
+Flask-Security
+docker
+cryptography

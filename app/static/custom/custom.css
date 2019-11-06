@@ -1,0 +1,30 @@
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 70px;
+}
+
+.footer-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 70px;
+  background-color: #f5f5f5;
+  padding-top: 5px;
+}
+
+.github a:link {
+    color: #000000;
+}
+
+.github a:visited {
+    color: #000000;
+}
+
+.github a:hover {
+    color: #696969;
+}
+
+.top-pad {
+    padding-top: 5em;
+}
