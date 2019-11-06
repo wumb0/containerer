@@ -16,7 +16,7 @@ def index():
     c = None
     if 'container' in session:
         c = ContainerInstance.query.filter_by(hash=session['container']).one_or_none()
-    return render_template("index.html", container=c, host=request.remote_addr, containername=app.config["CONTAINER_NAME"])
+        return render_template("index.html", container=c, host=request.host.split(":")[0], containername=app.config["CONTAINER_NAME"])
 
 @main.route('/startcontainer')
 def start_container():
@@ -85,7 +85,7 @@ def expire(hash):
 @main.route('/getkey/<hash>')
 def get_key(hash):
     c = ContainerInstance.query.filter_by(hash=hash).first_or_404()
-    fn = "{}-{}-{}.pem".format(c.username, request.remote_addr, c.port)
+    fn = "{}-{}-{}.pem".format(c.username, request.host.split(":")[0], c.port)
     return Response(
         c.privkey,
         mimetype="application/x-pem-file",
