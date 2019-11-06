@@ -66,4 +66,4 @@ class ContainerInstance(db.Model):
 
     @hybrid_property
     def username(self):
-        return config["USERNAME_PREFIX"] + "_" + self.id
+        return app.config["USERNAME_PREFIX"] + "_" + self.id
