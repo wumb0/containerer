@@ -8,7 +8,7 @@
                 <p>Connection info: {{container.username}}@{{host}} port {{container.port}}</p>
                 <pre>{{container.privkey}}</pre>
                 <p>Expiry at {{container.expiry.isoformat()}}</p>
-                <button type="button" class="btn btn-info" id="key">Download Key</button>
+                <button type="button" class="btn btn-warning" id="key">Download Key</button>
                 <button type="button" class="btn btn-danger" id="take">Expire now</button>
             {% else %}
                 <button type="button" class="btn btn-primary" id="give">Give me a container</button>

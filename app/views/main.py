@@ -65,13 +65,13 @@ def is_running(ch):
 
 @main.route('/getcreds/<hash>')
 def get_creds(hash):
-    c = ContainerInstance.query.filter_by(hash=hash).one_or_404()
+    c = ContainerInstance.query.filter_by(hash=hash).first_or_404()
     d = {"privkey": c.privkey, "pubkey": c.pubkey, "port": c.port, "hash": c.hash, "username": c.username}
     return jsonify(d), 200
 
 @main.route('/expire/<hash>')
 def expire(hash):
-    c = ContainerInstance.query.filter_by(hash=hash).one_or_404()
+    c = ContainerInstance.query.filter_by(hash=hash).first_or_404()
     expire_container(c.id)
     if 'container' in session:
         del session['container']
@@ -80,7 +80,7 @@ def expire(hash):
 
 @main.route('/getkey/<hash>')
 def get_key(hash):
-    c = ContainerInstance.query.filter_by(hash=hash).one_or_404()
+    c = ContainerInstance.query.filter_by(hash=hash).first_or_404()
     fn = "{}-{}-{}.pem".format(c.username, request.remote_addr, c.port)
     return Response(
         c.privkey,
