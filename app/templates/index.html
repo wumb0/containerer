@@ -22,18 +22,18 @@
 <script>
 $( document ).ready(function()
 {
-    $(document).on("click", "#give", function(){
+    $("#give").click(function(){
 	$.ajax ( { 
-		url: "/startcontainer"
+		url: "/startcontainer",
 		type: "GET",
 		success: function (d) {
 		    location.reload();
 		}
 	} );
     });
-    $(document).on("click", "#take", function(){
+    $("#take").click(function(){
 	$.ajax ( { 
-		url: "/expire/{{container.id}}"
+		url: "/expire/{{container.id}}",
 		type: "GET",
 		success: function (d) {
 		    location.reload();
@@ -41,5 +41,5 @@ $( document ).ready(function()
 	} );
     });
 }
-<script>
+</script>
 {% endblock footer %}
