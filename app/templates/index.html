@@ -32,7 +32,7 @@ $( document ).ready(function()
 	} );
     });
 {% if container %}
-    $("#take").click(function(){
+    function expire_container (){
 	$.ajax ( { 
 		url: "/expire/{{container.hash}}",
 		type: "GET",
@@ -40,6 +40,9 @@ $( document ).ready(function()
 		    location.reload();
 		}
 	} );
+    };
+    $("#take").click(function(){
+        expire_container();
     });
     $("#key").click(function(){
         window.location.replace("/getkey/{{container.hash}}")
@@ -52,9 +55,12 @@ $( document ).ready(function()
         var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((t % (1000 * 60)) / 1000);
         document.getElementById("expiry").innerHTML = minutes + "m " + seconds + "s ";
-        if (t < 0) {
+        if (now > deadline) {
             clearInterval(x);
             alert("kldfsj");
+            // don't worry kids, it expires on the backend too even if this
+            // isn't called. no hakking allowed.
+            expire_container();
             location.reload();
             document.getElementById("expiry").innerHTML = "EXPIRED";
         }
