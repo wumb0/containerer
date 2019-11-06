@@ -20,6 +20,8 @@
 
 {% block footer %}
 <script>
+$( document ).ready(function()
+{
     $('#give').click(function(e){
 	$.ajax ( { 
 		url: "/startcontainer"
@@ -40,5 +42,6 @@
 	} );
 	e.preventDefault();
     });
+}
 <script>
 {% endblock footer %}
