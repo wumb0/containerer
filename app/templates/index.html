@@ -20,7 +20,7 @@
 
 {% block footer %}
 <script>
-    $('button#give').click(function(e){
+    $('#give').click(function(e){
 	$.ajax ( { 
 		url: "/startcontainer"
 		type: "GET",
@@ -30,7 +30,7 @@
 	} );
 	e.preventDefault();
     });
-    $('button#take').click(function(e){
+    $('#take').click(function(e){
 	$.ajax ( { 
 		url: "/expire/{{container.id}}"
 		type: "GET",
