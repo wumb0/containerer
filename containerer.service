@@ -1,0 +1,10 @@
+[Unit]
+Description=Containerer
+After=network.target
+
+[Service]
+ExecStart=/root/containerer/flask/bin/gunicorn -b 0.0.0.0 app:app
+WorkingDirectory=/root/containerer
+
+[Install]
+WantedBy=multi-user.target

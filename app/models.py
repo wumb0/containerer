@@ -60,10 +60,10 @@ class Role(db.Model, RoleMixin):
 class ContainerInstance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     hash = db.Column(db.String(64))
-    pubkey = db.Column(db.String(252))
-    privkey = db.Column(db.String(384))
+    pubkey = db.Column(db.String(300))
+    privkey = db.Column(db.String(400))
     port = db.Column(db.Integer)
-    job_id = db.Column(db.String(30))
+    job_id = db.Column(db.String(40))
     expiry = db.Column(db.DateTime)
     extends = db.Column(db.Integer)
 
