@@ -19,17 +19,19 @@
                 <p>Before you hit this button, please understand two things</p>
                 <ol>
                     <li>These containers are not meant for you to do work on. They are meant for you to solve the challenge. Work on your own box, write an exploit, and then use the container to run it to get the flag. Your data will disappear after the container expires.</li>
-                    <li>If you try to DDoS the box by spinning up a billion containers, you're just an asshole who likes ruining things for other people. In that case I'll take this box down and everyone will have to ask me for a container to solve on. This is a prototype I wrote in 2 days, not a production app that needs to be tested so you can show how big your dick is.</li>
+                    <li>I wrote this site in 2 days so be gentle. Don't be a jerk, use it as intended. This is <strong>__NOT__</strong> a web challenge so don't hack the site. The challenge is in the container.</li>
                 </ol>
                 <button type="button" class="btn btn-primary" id="give">Give me a container</button>
             {% endif %}
         </div>
     </div>
+{% if not container %}
     <div class="row">
         <div id="cont" class="col-md-12">
                 <small>*If the button is not working then wait a minute and try again. You can only request 1/min</small>
         </div>
     </div>
+{% endif %}
 </div>
 {% endblock content %}
 
