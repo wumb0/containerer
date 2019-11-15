@@ -3,6 +3,7 @@ from flask_admin.contrib.sqla.view import ModelView
 from flask_security import current_user, utils
 from wtforms import PasswordField, validators
 from flask import redirect, url_for, flash
+from app.util import schedule_expiry, expire_container, is_running
 
 """
 AdminBaseView: Access control for the admin panel, without this there is none!
@@ -79,4 +80,8 @@ class RoleModelView(AdminModelView):
     pass
 
 class ContainerInstanceModelView(AdminModelView):
-    pass
+    column_exclude_list = ['pubkey', 'privkey', 'job_id']
+    can_set_page_size = True
+
+    def on_model_delete(self, model):
+        expire_container(model.id)
