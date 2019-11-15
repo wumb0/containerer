@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/root/containerer/flask/bin/rqscheduler
+WorkingDirectory=/root/containerer
 
 [Install]
 WantedBy=multi-user.target
