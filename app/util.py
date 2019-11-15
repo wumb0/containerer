@@ -20,6 +20,7 @@ def expire_container(id):
             sched.cancel(c.job_id)
         db.session.delete(c)
         db.session.commit()
+        db.session.flush()
 
 def is_running(ch):
     cont = docker_client.containers.get(ch)
