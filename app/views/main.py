@@ -5,6 +5,7 @@ from flask_security import current_user, login_required
 from datetime import timedelta, datetime
 from app.crypto import generate_keypair
 from app.models import *
+import socket
 
 # create a blueprint called main
 main = Blueprint('main', __name__)
@@ -16,7 +17,7 @@ def index():
     c = None
     if 'container' in session:
         c = ContainerInstance.query.filter_by(hash=session['container']).one_or_none()
-    return render_template("index.html", container=c, host=request.host.split(":")[0], containername=app.config["CONTAINER_NAME"])
+    return render_template("index.html", container=c, host=socket.gethostname(), containername=app.config["CONTAINER_NAME"])
 
 @main.route('/startcontainer')
 def start_container():
