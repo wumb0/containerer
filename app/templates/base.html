@@ -34,9 +34,9 @@
                 <ul class="nav navbar-nav">
                     {% if g.user.is_authenticated %}
                     {% if g.user.is_admin %}
-                    <li id="admin"><a href="{{url_for('admin.index')}}"><i class="fad fa-user-cog"></i> Admin</a></li>
+                    <li id="admin"><a href="{{url_for('admin.index')}}"><i class="fas fa-user-cog"></i> Admin</a></li>
                     {% endif %}
-                    <li id="logout"><a href="{{url_for('security.logout')}}"><i class="fad fa-sign-out-alt"></i> Logout</a></li>
+                    <li id="logout"><a href="{{url_for('security.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     {% endif %}
                 </ul>
             </div>
