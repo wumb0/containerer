@@ -18,8 +18,9 @@ def expire_container(id, delete=True):
         cont.remove()
         if c.job_id in sched:
             sched.cancel(c.job_id)
-        db.session.delete(c)
-        db.session.commit()
+        if delete:
+            db.session.delete(c)
+            db.session.commit()
 
 def is_running(ch):
     cont = docker_client.containers.get(ch)
