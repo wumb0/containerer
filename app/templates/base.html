@@ -34,9 +34,9 @@
                 <ul class="nav navbar-nav">
                     {% if g.user.is_authenticated %}
                     {% if g.user.is_admin %}
-                    <li id="admin"><a href="{{url_for('admin.index')}}"><i class="fa fa-cog"></i> Admin</a></li>
+                    <li id="admin"><a href="{{url_for('admin.index')}}"><i class="fad fa-user-cog"></i> Admin</a></li>
                     {% endif %}
-                    <li id="logout"><a href="{{url_for('security.logout')}}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    <li id="logout"><a href="{{url_for('security.logout')}}"><i class="fad fa-sign-out-alt"></i> Logout</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -78,7 +78,7 @@
                 <p class="text-muted text-center">wumb0 2019</p>
             </div>
             <div class="row text-center github">
-                <a href="https://github.com/wumb0/containerer"><i class="fa fa-github fa-2x"></i></a>
+                <a href="https://github.com/wumb0/containerer"><i class="fab fa-github fa-2x"></i></a>
             </div>
         </div>
     </footer>
