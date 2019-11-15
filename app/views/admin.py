@@ -81,6 +81,9 @@ class RoleModelView(AdminModelView):
 
 class ContainerInstanceModelView(AdminModelView):
     column_exclude_list = ['pubkey', 'privkey', 'job_id']
+    form_columns = ['extends']
+    column_default_sort = 'expiry'
+    can_create = False
     can_set_page_size = True
 
     def on_model_delete(self, model):
