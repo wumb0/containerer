@@ -3,7 +3,7 @@ Description=Containerer
 After=network.target
 
 [Service]
-ExecStart=/root/containerer/flask/bin/gunicorn -b 0.0.0.0 app:app
+ExecStart=/root/containerer/flask/bin/gunicorn app:app
 WorkingDirectory=/root/containerer
 
 [Install]
