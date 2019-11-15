@@ -1,5 +1,5 @@
 from app import app, sched, docker_client, db
-from models import ContainerInstance
+from app.models import ContainerInstance
 from datetime import datetime, timedelta
 
 def schedule_expiry(c):
