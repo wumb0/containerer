@@ -8,7 +8,7 @@ def schedule_expiry(c):
     db.session.merge(c)
     db.session.commit()
 
-def expire_container(id):
+def expire_container(id, delete=True):
     with app.app_context():
         c = ContainerInstance.query.get(id)
         if not c:
@@ -20,7 +20,6 @@ def expire_container(id):
             sched.cancel(c.job_id)
         db.session.delete(c)
         db.session.commit()
-        db.session.flush()
 
 def is_running(ch):
     cont = docker_client.containers.get(ch)

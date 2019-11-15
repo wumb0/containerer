@@ -84,4 +84,4 @@ class ContainerInstanceModelView(AdminModelView):
     can_set_page_size = True
 
     def on_model_delete(self, model):
-        expire_container(model.id)
+        expire_container(model.id, False)
