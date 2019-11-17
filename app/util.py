@@ -13,11 +13,15 @@ def expire_container(id, delete=True):
         c = ContainerInstance.query.get(id)
         if not c:
             return
-        cont = docker_client.containers.get(c.hash)
-        cont.kill()
-        cont.remove()
-        if c.job_id in sched:
-            sched.cancel(c.job_id)
+        try:
+            cont = docker_client.containers.get(c.hash)
+            cont.kill()
+            cont.remove()
+        except: pass
+        try:
+            if c.job_id in sched:
+                sched.cancel(c.job_id)
+        except: pass
         if delete:
             db.session.delete(c)
             db.session.commit()
